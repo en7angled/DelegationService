@@ -1,0 +1,131 @@
+cabal-version:   3.0
+name:            DelegationService
+version:         0.1.0.0
+
+synopsis:        Service to construct and submit Cardano delegation transactions based on "pool id" or "drep hash"
+-- description:
+homepage:        entangled.cardano.vip
+license:         Apache-2.0
+author:          Marius Georgescu
+maintainer:      georgescumarius@live.com
+
+-- copyright:
+category:        System
+build-type:      Simple
+
+
+-- extra-source-files:
+
+common warnings
+  ghc-options: -Wall
+
+library
+  import:             warnings
+  exposed-modules:
+    TxBuilding.Exceptions
+    TxBuilding.Interactions
+    TxBuilding.Operations
+    Utils
+    Utils.Config
+
+  other-modules:      Utils.Terminal
+  build-depends:
+    , aeson
+    , base
+    , bytestring
+    , deriving-aeson
+    , extra
+    , http-types
+    , mtl
+    , safe
+    , servant
+    , servant-server
+    , swagger2
+    , text
+    , time
+    , tx-building-core
+    , wai
+    , wai-cors
+
+  --- Cardano specific dependencies
+  build-depends:      atlas-cardano
+  hs-source-dirs:     src/lib
+  default-language:   GHC2021
+  default-extensions:
+    BangPatterns
+    BlockArguments
+    DataKinds
+    DeriveAnyClass
+    DeriveGeneric
+    DerivingStrategies
+    DerivingVia
+    FlexibleContexts
+    FlexibleInstances
+    GeneralizedNewtypeDeriving
+    ImportQualifiedPost
+    InstanceSigs
+    LambdaCase
+    MultiParamTypeClasses
+    NamedFieldPuns
+    NumericUnderscores
+    OverloadedStrings
+    PatternSynonyms
+    RecordWildCards
+    ScopedTypeVariables
+    StandaloneDeriving
+    TemplateHaskell
+    TupleSections
+    TypeApplications
+    TypeFamilies
+    TypeOperators
+    UndecidableInstances
+    ViewPatterns
+
+  extra-lib-dirs:   /usr/lib /usr/local/lib
+
+executable delegation-service
+  import:           warnings
+  main-is:          Main.hs
+  other-modules:
+    DelegationAppMonad
+    RestAPI
+
+  -- other-extensions:
+  build-depends:
+    , aeson-pretty
+    , atlas-cardano
+    , base
+    , bytestring
+    , DelegationService
+    , directory
+    , exceptions
+    , lens
+    , mg-servant-utils
+    , mtl
+    , servant-options
+    , servant-server
+    , servant-swagger
+    , servant-swagger-ui
+    , swagger2
+    , text
+    , tx-building-core
+    , wai
+    , warp
+
+  hs-source-dirs:   src/app
+  default-language: GHC2021
+  ghc-options:      -threaded -rtsopts -with-rtsopts=-T -with-rtsopts=-N -O2
+  extra-lib-dirs:   /usr/lib /usr/local/lib
+
+test-suite test
+  import:           warnings
+  default-language: GHC2021
+
+  -- other-modules:
+  -- other-extensions:
+  type:             exitcode-stdio-1.0
+  hs-source-dirs:   src/test
+  main-is:          Main.hs
+  build-depends:
+    , base
+    , DelegationService
