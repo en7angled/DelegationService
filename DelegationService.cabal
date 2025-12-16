@@ -1,6 +1,6 @@
 cabal-version:   3.0
 name:            DelegationService
-version:         0.1.0.0
+version:         0.1.1.0
 
 synopsis:We transform blockchain ideas into production-ready solutions. Our team specializes in Cardano development, from smart contracts to full-stack dApps, with security and performance at the core.
 -- description:
